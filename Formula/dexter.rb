@@ -4,14 +4,12 @@
 # notarization to deal with and macOS Gatekeeper never blocks it. `brew` also puts it on the PATH and
 # handles upgrades (`brew upgrade dexter`).
 #
-# PRIVATE-REPO INSTALL (no token needed): swarm is a PRIVATE repo, so this formula is `head`-only — install
-# with `brew install --HEAD yngfoxx/swarm/dexter`. `--HEAD` does a plain `git clone`, which uses the Mac
-# user's OWN GitHub git credentials (gh auth / SSH / credential helper) — so anyone with access to the
-# private repo installs with no extra HOMEBREW_GITHUB_API_TOKEN. Only the client is packaged; the Computer
-# (server) is Linux + Docker and runs from source (`make run`).
-#
-# When swarm becomes public / has tagged releases, add `url`+`sha256` (see ../README.md) for a stable
-# `brew install` without --HEAD.
+# swarm is PUBLIC, so this installs with NO authentication at all: `--HEAD` git-clones the public repo and
+# builds dexter — no token, no SSH key, no Gatekeeper. Install with:
+#     brew install --HEAD yngfoxx/swarm/dexter
+# It is `head`-only (always the latest `main`); for a stable, pinned `brew install` WITHOUT --HEAD, add a
+# tagged release's `url` + `sha256` (see ../README.md). Only the client is packaged; the Computer (server)
+# is Linux + Docker and runs from source (`make run`).
 class Dexter < Formula
   desc "TUI client for the swarm autonomous coding-agent control plane"
   homepage "https://github.com/yngfoxx/swarm"

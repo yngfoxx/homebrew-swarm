@@ -1,35 +1,41 @@
-# Homebrew tap — `dexter` (private-repo install, no token)
+# Homebrew tap — `dexter`
 
-Install the Dexter TUI client on macOS (or Linux) with Homebrew. Homebrew **builds from source** with
-the Go toolchain, so there's **no code signing / notarization / Gatekeeper** to fight — the exact thing a
-`.dmg` of an unsigned binary couldn't solve. `brew` puts `dexter` on the `PATH` and `brew upgrade dexter`
-keeps it current.
+Install the Dexter TUI client on macOS (or Linux) with Homebrew. Both `swarm` (the source) and this tap
+are **public**, so install needs **no authentication at all** — no token, no SSH key. Homebrew **builds
+from source** with the Go toolchain, so there's also no code signing / notarization / Gatekeeper to fight
+(the friction an unsigned `.dmg` couldn't solve). `brew` puts `dexter` on the `PATH`; upgrades are
+`brew upgrade --fetch-HEAD dexter`.
 
 > Only the **client** is packaged. The **Computer** (server/engine) is Linux + Docker; run it from source
 > with `make run` / `scripts/run-computer.sh`.
 
-## Install (for anyone with access to the private `yngfoxx/swarm` repo)
+## Install
 
 ```sh
 brew tap yngfoxx/swarm
 brew install --HEAD yngfoxx/swarm/dexter
 ```
 
-- `swarm` is **private**, so the formula is `head`-only: `--HEAD` does a plain `git clone`, which uses your
-  **own** GitHub git credentials (`gh auth login`, SSH, or a credential helper). No
-  `HOMEBREW_GITHUB_API_TOKEN` needed — if you can clone the repo, you can install.
-- The tap repo (`yngfoxx/homebrew-swarm`) is also private; `brew tap` clones it with the same git auth.
+The formula is `head`-only (always the latest `main`), so `--HEAD` is required.
 
-Update to the latest `main`: `brew upgrade --fetch-HEAD dexter`.
-
-## This tap is generated from the swarm repo
-`Formula/dexter.rb` here is the source of truth in `swarm` at `packaging/homebrew-swarm/`. The tap repo
-`yngfoxx/homebrew-swarm` is a copy of this directory. To update the formula, edit it in swarm and re-copy
-(or `git subtree`/CI) it into the tap repo.
-
-## If swarm ever goes public / gets tagged releases
-Add a stable download to `Formula/dexter.rb` so plain `brew install` (no `--HEAD`) works:
+## Stable, pinned installs (optional)
+To allow a plain `brew install` (no `--HEAD`), tag a release and add a stable download to
+`Formula/dexter.rb`:
+```sh
+git tag v0.1.0 && git push --tags
+curl -sL https://github.com/yngfoxx/swarm/archive/refs/tags/v0.1.0.tar.gz | shasum -a 256
+```
 ```ruby
 url "https://github.com/yngfoxx/swarm/archive/refs/tags/v0.1.0.tar.gz"
-sha256 "…"   # curl -sL <url> | shasum -a 256
+sha256 "<the shasum above>"
+```
+
+## This tap is generated from the swarm repo
+`Formula/dexter.rb` here is the source of truth in `swarm` at `packaging/homebrew-swarm/`; the tap repo
+`yngfoxx/homebrew-swarm` is a copy of this directory. To update, edit it in swarm and re-copy it into the
+tap repo.
+
+## Lint the formula (no install needed)
+```sh
+brew audit --new --formula Formula/dexter.rb
 ```
