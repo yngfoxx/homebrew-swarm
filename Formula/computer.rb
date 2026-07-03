@@ -11,6 +11,7 @@
 class Computer < Formula
   desc "Control-plane server for the swarm autonomous coding-agent system"
   homepage "https://github.com/yngfoxx/swarm"
+  license "Apache-2.0"
   head "https://github.com/yngfoxx/swarm.git", branch: "main"
 
   depends_on "go" => :build

@@ -13,6 +13,7 @@
 class Dexter < Formula
   desc "TUI client for the swarm autonomous coding-agent control plane"
   homepage "https://github.com/yngfoxx/swarm"
+  license "Apache-2.0"
   head "https://github.com/yngfoxx/swarm.git", branch: "main"
 
   depends_on "go" => :build
